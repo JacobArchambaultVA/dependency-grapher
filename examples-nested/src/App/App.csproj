@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../libs/Core/Core.csproj" />
+    <ProjectReference Include="../../libs/Util/Util.csproj" />
+  </ItemGroup>
+</Project>

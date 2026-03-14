@@ -12,11 +12,11 @@ def scan_csproj_directory(directory: Path) -> dict[str, ProjectNode]:
     if not directory.is_dir():
         raise ValueError(f"Not a directory: {directory}")
 
-    project_files = sorted(directory.glob("*.csproj"))
+    project_files = sorted(directory.rglob("*.csproj"))
     nodes: dict[str, ProjectNode] = {}
 
     for project_file in project_files:
-        key = project_key(project_file)
+        key = project_key(project_file, root=directory)
         nodes[key] = ProjectNode(name=key, path=project_file.resolve())
 
     path_to_key = {node.path: key for key, node in nodes.items()}
@@ -32,8 +32,10 @@ def scan_csproj_directory(directory: Path) -> dict[str, ProjectNode]:
     return nodes
 
 
-def project_key(path: Path) -> str:
-    return path.stem
+def project_key(path: Path, root: Path) -> str:
+    """Build a stable key from path relative to the scan root, without extension."""
+    relative = path.resolve().relative_to(root.resolve())
+    return relative.with_suffix("").as_posix()
 
 
 def parse_project_references(project_file: Path) -> Iterable[Path]:

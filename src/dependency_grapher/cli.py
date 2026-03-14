@@ -10,12 +10,12 @@ from dependency_grapher.exporters import get_exporter
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Generate a dependency graph from .csproj files in a directory."
+        description="Generate a dependency graph from .csproj files under a directory (recursive)."
     )
     parser.add_argument(
         "directory",
         type=Path,
-        help="Directory containing .csproj files.",
+        help="Root directory to recursively scan for .csproj files.",
     )
     parser.add_argument(
         "--format",

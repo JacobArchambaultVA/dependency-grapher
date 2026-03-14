@@ -1,13 +1,15 @@
 # dependency-grapher
 
-Generates a project dependency graph from `.csproj` files found in one directory.
+Generates a project dependency graph from `.csproj` files found under a directory (recursive).
 
 ## Highlights
 
-- Scans only one directory for `*.csproj` files.
+- Recursively scans subdirectories for `*.csproj` files.
 - Builds an internal graph model first (format-agnostic).
 - Exports via pluggable exporters (`pdf`, `pdf-native`, `dot`, `json`).
 - Validates the graph as a DAG by default.
+
+Node IDs are based on paths relative to the scan root (without `.csproj`) so same-named projects in different folders are handled correctly.
 
 ## Requirements
 
