@@ -8,6 +8,16 @@ from dependency_grapher.builder import build_dependency_graph
 from dependency_grapher.exporters import get_exporter
 
 
+def default_extension(format_name: str) -> str:
+    extension_map = {
+        "pdf": "pdf",
+        "pdf-native": "pdf",
+        "dot": "dot",
+        "json": "json",
+    }
+    return extension_map.get(format_name, format_name)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate a dependency graph from .csproj files under a directory (recursive)."
@@ -27,7 +37,7 @@ def parse_args() -> argparse.Namespace:
         "--output",
         type=Path,
         default=None,
-        help="Output file path. Defaults to dependency-graph.<format> in the current working directory.",
+        help="Output file path. Defaults to dependency-graph.<extension> in the current working directory.",
     )
     parser.add_argument(
         "--allow-cycles",
@@ -41,7 +51,8 @@ def main() -> int:
     args = parse_args()
 
     try:
-        output_path = args.output or (Path.cwd() / f"dependency-graph.{args.format}")
+        extension = default_extension(args.format)
+        output_path = args.output or (Path.cwd() / f"dependency-graph.{extension}")
         output_path = output_path.resolve()
         output_path.parent.mkdir(parents=True, exist_ok=True)
 

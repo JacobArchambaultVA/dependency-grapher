@@ -31,6 +31,8 @@ If you only want native PDF rendering (no Graphviz), this is sufficient.
 dependency-grapher <directory-with-csproj> --format pdf --output graph.pdf
 ```
 
+When `--output` is omitted, the default filename is based on output extension (for example, both `pdf` and `pdf-native` default to `dependency-graph.pdf`).
+
 Examples:
 
 ```bash
