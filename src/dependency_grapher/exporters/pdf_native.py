@@ -23,6 +23,11 @@ class NativePdfExporter(GraphExporter):
                 "Install with: pip install matplotlib"
             ) from exc
 
+        labels = {
+            node_key: graph.nodes[node_key].path.name
+            for node_key in graph.sorted_nodes()
+        }
+
         positions = _compute_positions(graph)
         if not positions:
             raise ValueError("No .csproj files were found to render.")
@@ -58,7 +63,7 @@ class NativePdfExporter(GraphExporter):
             ax.text(
                 x,
                 y,
-                node_key,
+                labels[node_key],
                 ha="center",
                 va="center",
                 fontsize=10,
