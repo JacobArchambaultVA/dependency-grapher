@@ -50,7 +50,11 @@ dependency-grapher ./src/MySolution --format pdf-native --output graph.pdf
 
 # Allow cyclic graphs (skips DAG validation)
 dependency-grapher ./src/MySolution --allow-cycles
+
+# Example generating a series of PDF graphs for a set of repos
+for repo in ../*ped-services*/; do   [ -d "$repo" ] || continue;   name="$(basename "$repo")";   dependency-grapher "$repo" --format pdf-native --output "${name}.pdf"; done
 ```
+
 
 ## PDF Behavior
 
