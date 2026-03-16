@@ -27,7 +27,7 @@ class NativePdfExporter(GraphExporter):
             node_key: graph.nodes[node_key].path.name
             for node_key in graph.sorted_nodes()
         }
-        root_nodes = _find_root_nodes(graph)
+        root_nodes = graph.root_nodes()
 
         positions = _compute_positions(graph)
         if not positions:
@@ -147,22 +147,9 @@ def _circular_positions(nodes: list[str]) -> dict[str, tuple[float, float]]:
     return positions
 
 
-def _find_root_nodes(graph: DependencyGraph) -> set[str]:
-    indegree: dict[str, int] = {node: 0 for node in graph.nodes}
-    for _, target in graph.edges():
-        indegree[target] += 1
-    return {node for node, degree in indegree.items() if degree == 0}
-
-
 def _node_face_color(graph: DependencyGraph, node_key: str, root_nodes: set[str]) -> str:
-    file_name = graph.nodes[node_key].path.name.lower()
-    if _is_test_project(file_name):
+    if graph.is_test_project(node_key):
         return "#BBF7D0"
     if node_key in root_nodes:
         return "#FEF08A"
     return "#E5E7EB"
-
-
-def _is_test_project(file_name: str) -> bool:
-    markers = ("test", "tests", "unittest", "integrationtest", "spec")
-    return any(marker in file_name for marker in markers)

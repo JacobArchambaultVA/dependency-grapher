@@ -25,6 +25,20 @@ class DependencyGraph:
     def sorted_nodes(self) -> list[str]:
         return sorted(self.nodes.keys())
 
+    def root_nodes(self) -> set[str]:
+        indegree: dict[str, int] = {node: 0 for node in self.nodes}
+        for _, target in self.edges():
+            indegree[target] += 1
+        return {node for node, degree in indegree.items() if degree == 0}
+
+    def is_test_project(self, node_key: str) -> bool:
+        node = self.nodes.get(node_key)
+        if node is None:
+            return False
+        file_name = node.path.name.lower()
+        markers = ("test", "tests", "unittest", "integrationtest", "spec")
+        return any(marker in file_name for marker in markers)
+
     def detect_cycles(self) -> list[list[str]]:
         visited: set[str] = set()
         stack: set[str] = set()
