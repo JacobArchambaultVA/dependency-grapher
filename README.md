@@ -18,6 +18,19 @@ Node IDs are based on paths relative to the scan root (without `.csproj`) so sam
 
 ## Install
 
+Create and activate a local virtual environment:
+
+```bash
+python -m venv .venv
+source .venv/Scripts/activate   # Git Bash on Windows
+```
+
+PowerShell alternative:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
 ```bash
 pip install -e .
 ```
