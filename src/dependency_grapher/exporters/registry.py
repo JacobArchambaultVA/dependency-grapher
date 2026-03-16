@@ -7,12 +7,10 @@ from dependency_grapher.exporters.pdf_native import NativePdfExporter
 
 
 def get_exporter(format_name: str) -> GraphExporter:
-    native_pdf = NativePdfExporter()
     exporters: dict[str, GraphExporter] = {
         DotExporter.format_name: DotExporter(),
         JsonExporter.format_name: JsonExporter(),
-        "pdf": native_pdf,
-        NativePdfExporter.format_name: native_pdf,
+        "pdf": NativePdfExporter(),
     }
 
     try:

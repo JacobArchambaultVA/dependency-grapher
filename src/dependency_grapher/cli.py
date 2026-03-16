@@ -11,7 +11,6 @@ from dependency_grapher.exporters import get_exporter
 def default_extension(format_name: str) -> str:
     extension_map = {
         "pdf": "pdf",
-        "pdf-native": "pdf",
         "dot": "dot",
         "json": "json",
     }
@@ -29,9 +28,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--format",
-        choices=["pdf", "pdf-native", "dot", "json"],
+        choices=["pdf", "dot", "json"],
         default="pdf",
-        help="Output format (pdf and pdf-native both use native matplotlib rendering).",
+        help="Output format.",
     )
     parser.add_argument(
         "--output",

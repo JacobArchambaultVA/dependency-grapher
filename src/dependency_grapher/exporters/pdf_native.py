@@ -9,7 +9,7 @@ from .base import GraphExporter
 
 
 class NativePdfExporter(GraphExporter):
-    format_name = "pdf-native"
+    format_name = "pdf"
 
     def export(self, graph: DependencyGraph, output_path: Path) -> None:
         try:
