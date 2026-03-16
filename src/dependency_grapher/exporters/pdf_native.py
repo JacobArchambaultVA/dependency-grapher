@@ -27,6 +27,7 @@ class NativePdfExporter(GraphExporter):
             node_key: graph.nodes[node_key].path.name
             for node_key in graph.sorted_nodes()
         }
+        root_nodes = _find_root_nodes(graph)
 
         positions = _compute_positions(graph)
         if not positions:
@@ -60,6 +61,7 @@ class NativePdfExporter(GraphExporter):
 
         for node_key in graph.sorted_nodes():
             x, y = positions[node_key]
+            face_color = _node_face_color(graph, node_key, root_nodes)
             ax.text(
                 x,
                 y,
@@ -70,7 +72,7 @@ class NativePdfExporter(GraphExporter):
                 color="#111827",
                 bbox={
                     "boxstyle": "round,pad=0.4",
-                    "facecolor": "#E5E7EB",
+                    "facecolor": face_color,
                     "edgecolor": "#374151",
                     "linewidth": 1.0,
                 },
@@ -143,3 +145,24 @@ def _circular_positions(nodes: list[str]) -> dict[str, tuple[float, float]]:
         angle = (2.0 * math.pi * i) / n
         positions[node] = (radius * math.cos(angle), radius * math.sin(angle))
     return positions
+
+
+def _find_root_nodes(graph: DependencyGraph) -> set[str]:
+    indegree: dict[str, int] = {node: 0 for node in graph.nodes}
+    for _, target in graph.edges():
+        indegree[target] += 1
+    return {node for node, degree in indegree.items() if degree == 0}
+
+
+def _node_face_color(graph: DependencyGraph, node_key: str, root_nodes: set[str]) -> str:
+    file_name = graph.nodes[node_key].path.name.lower()
+    if _is_test_project(file_name):
+        return "#BBF7D0"
+    if node_key in root_nodes:
+        return "#FEF08A"
+    return "#E5E7EB"
+
+
+def _is_test_project(file_name: str) -> bool:
+    markers = ("test", "tests", "unittest", "integrationtest", "spec")
+    return any(marker in file_name for marker in markers)
