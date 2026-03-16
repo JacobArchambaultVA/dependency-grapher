@@ -9,6 +9,7 @@ from typing import Dict, Iterable, Set
 class ProjectNode:
     name: str
     path: Path
+    is_test: bool = False
     dependencies: Set[str] = field(default_factory=set)
 
 
@@ -35,6 +36,8 @@ class DependencyGraph:
         node = self.nodes.get(node_key)
         if node is None:
             return False
+        if node.is_test:
+            return True
         file_name = node.path.name.lower()
         markers = ("test", "tests", "unittest", "integrationtest", "spec")
         return any(marker in file_name for marker in markers)
