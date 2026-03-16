@@ -14,8 +14,7 @@ Node IDs are based on paths relative to the scan root (without `.csproj`) so sam
 ## Requirements
 
 - Python 3.10+
-- `matplotlib` for native PDF rendering (Graphviz-free)
-- Optional: Graphviz installed and available on `PATH` for higher quality `dot` layout in `--format pdf`
+- `matplotlib` for PDF rendering
 
 ## Install
 
@@ -45,7 +44,7 @@ dependency-grapher ./src/MySolution --format dot --output graph.dot
 # JSON output
 dependency-grapher ./src/MySolution --format json --output graph.json
 
-# Force pure-Python PDF rendering (no Graphviz)
+# Native matplotlib PDF rendering
 dependency-grapher ./src/MySolution --format pdf-native --output graph.pdf
 
 # Allow cyclic graphs (skips DAG validation)
@@ -58,8 +57,8 @@ for repo in ../*ped-services*/; do   [ -d "$repo" ] || continue;   name="$(basen
 
 ## PDF Behavior
 
-- `--format pdf`: tries Graphviz `dot` first, then automatically falls back to native matplotlib rendering if Graphviz is unavailable.
-- `--format pdf-native`: always uses native matplotlib rendering.
+- `--format pdf`: uses native matplotlib rendering.
+- `--format pdf-native`: alias for native matplotlib rendering.
 
 ## Extending Output Formats
 

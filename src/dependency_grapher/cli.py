@@ -31,7 +31,7 @@ def parse_args() -> argparse.Namespace:
         "--format",
         choices=["pdf", "pdf-native", "dot", "json"],
         default="pdf",
-        help="Output format.",
+        help="Output format (pdf and pdf-native both use native matplotlib rendering).",
     )
     parser.add_argument(
         "--output",

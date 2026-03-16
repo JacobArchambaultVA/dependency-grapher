@@ -3,16 +3,16 @@ from __future__ import annotations
 from dependency_grapher.exporters.base import GraphExporter
 from dependency_grapher.exporters.dot import DotExporter
 from dependency_grapher.exporters.json_exporter import JsonExporter
-from dependency_grapher.exporters.pdf import PdfExporter
 from dependency_grapher.exporters.pdf_native import NativePdfExporter
 
 
 def get_exporter(format_name: str) -> GraphExporter:
+    native_pdf = NativePdfExporter()
     exporters: dict[str, GraphExporter] = {
         DotExporter.format_name: DotExporter(),
         JsonExporter.format_name: JsonExporter(),
-        PdfExporter.format_name: PdfExporter(),
-        NativePdfExporter.format_name: NativePdfExporter(),
+        "pdf": native_pdf,
+        NativePdfExporter.format_name: native_pdf,
     }
 
     try:
