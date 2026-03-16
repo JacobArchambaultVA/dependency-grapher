@@ -35,8 +35,6 @@ PowerShell alternative:
 pip install -e .
 ```
 
-If you only want native PDF rendering (no Graphviz), this is sufficient.
-
 ## Usage
 
 ```bash
