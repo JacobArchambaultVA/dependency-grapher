@@ -52,6 +52,9 @@ dependency-grapher ./src/MySolution --allow-cycles
 
 # Example generating a series of PDF graphs for a set of repos
 for repo in ../*ped-services*/; do   [ -d "$repo" ] || continue;   name="$(basename "$repo")";   dependency-grapher "$repo" --format pdf --output "${name}.pdf"; done
+
+# Example merging a series of generated PDF graphs in a folder, e.g., from the output of the command immediately above
+python -m pip install -q pypdf && python -c "from pypdf import PdfWriter; import glob,sys; files=sorted(glob.glob('*.pdf')); sys.exit('No PDF files found') if not files else None; w=PdfWriter(); [w.append(f) for f in files]; w.write('merged.pdf'); print(f'Merged {len(files)} files into merged.pdf')"
 ```
 
 
